@@ -24,10 +24,15 @@ async function run(){
         await client.connect();
         const perfumeCollection = client.db("perfumeCenter").collection("perfume");
 
-        
+        // Perfume Collection API
 
-
-
+        // POST API for perfumeCollection
+        // POST
+        app.post('/perfume', async (req, res) => {
+            const newPerfume = req.body;
+            const result = await perfumeCollection.insertOne(newPerfume);
+            res.send(result);
+        });
 
     }
     finally{
