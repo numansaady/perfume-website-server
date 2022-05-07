@@ -89,9 +89,7 @@ async function run(){
             const query = { _id: ObjectId(id) };
             const result = await perfumeCollection.deleteOne(query);
             res.send(result);
-        });
-
-        
+        });    
                 
 
     }
