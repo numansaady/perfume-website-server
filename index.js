@@ -68,6 +68,30 @@ async function run(){
             const perfume = await perfumeCollection.findOne(query);
             res.send(perfume);
         });
+
+        app.get('/myItem', verifyToken, async (req, res) => {
+            const decodedEmail = req.decoded.email;
+            const email = req.query.email;
+            if (email === decodedEmail) {
+                const query = { email: email };
+                const cursor = perfumeCollection.find(query);
+                const perfumes = await cursor.toArray();
+                res.send(perfumes);
+            }
+            else{
+                res.status(403).send({message: 'forbidden access'})
+            }
+        });
+
+         // DELETE api 
+         app.delete('/perfume/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await perfumeCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        
                 
 
     }
