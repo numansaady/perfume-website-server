@@ -90,6 +90,21 @@ async function run(){
             const result = await perfumeCollection.deleteOne(query);
             res.send(result);
         });    
+
+        // PUT api 
+        app.put('/perfume/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedQuantity = req.body;            
+            const filter = { _id: ObjectId(id) };
+            const options = {upsert : true};
+            const updateDoc = {
+                $set : {
+                    quantity : updatedQuantity.quantity
+                },
+            };
+            const result = await perfumeCollection.updateOne(filter, options, updateDoc);
+            res.send(result);
+        });   
                 
 
     }
