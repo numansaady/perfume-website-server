@@ -69,18 +69,12 @@ async function run(){
             res.send(perfume);
         });
 
-        app.get('/myItem', verifyToken, async (req, res) => {
-            const decodedEmail = req.decoded.email;
+        app.get('/myItem', async (req, res) => {
             const email = req.query.email;
-            if (email === decodedEmail) {
                 const query = { email: email };
                 const cursor = perfumeCollection.find(query);
                 const perfumes = await cursor.toArray();
                 res.send(perfumes);
-            }
-            else{
-                res.status(403).send({message: 'forbidden access'})
-            }
         });
 
          // DELETE api 
@@ -92,15 +86,13 @@ async function run(){
         });    
 
         // PUT api 
-        app.put('/perfume/:id', async (req, res) => {
+        app.put('/perfume/:id', async(req, res) => {
             const id = req.params.id;
-            const updatedQuantity = req.body;            
+            const perfume = req.body;            
             const filter = { _id: ObjectId(id) };
             const options = {upsert : true};
             const updateDoc = {
-                $set : {
-                    quantity : updatedQuantity.quantity
-                },
+                $set : { newPerfume: perfume },
             };
             const result = await perfumeCollection.updateOne(filter, options, updateDoc);
             res.send(result);
