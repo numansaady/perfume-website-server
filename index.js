@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-require('dotenv').config()
+require('dotenv').config();
 const port = process.env.PORT || 5000;
 const jwt = require('jsonwebtoken');
 
@@ -12,7 +12,7 @@ function verifyToken(req, res, next) {
         return res.status(401).send({ message: 'unauthorized access' });
     }
     const token = headerAuth.split(' ')[1];
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
         if (err) {
             return res.status(403).send({ message: 'Forbidden access' });
         }
